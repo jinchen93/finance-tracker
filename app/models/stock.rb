@@ -1,4 +1,6 @@
 class Stock < ActiveRecord::Base
+  has_many :user_stocks
+  has_many :users, through: :user_stocks
 
   # Find stock that has already been looked up and stored
   def Stock.find_by_ticker(ticker_symbol)
