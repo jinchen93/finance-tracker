@@ -1,9 +1,12 @@
 class Stock < ActiveRecord::Base
-  def self.find_by_ticker(ticker_symbol)
+
+  # Find stock that has already been looked up and stored
+  def Stock.find_by_ticker(ticker_symbol)
     where(ticker: ticker_symbol).first
   end
 
-  def self.new_from_lookup(ticker_symbol)
+  # Lookup new stock and store in database
+  def Stock.new_from_lookup(ticker_symbol)
     looked_up_stock = StockQuote::Stock.quote(ticker_symbol)
     return nil unless looked_up_stock.name
 
@@ -12,6 +15,7 @@ class Stock < ActiveRecord::Base
     new_stock
   end
 
+  # Find price of a certain stock
   def price
     closing_price = StockQuote::Stock.quote(ticker).close
     return "#{closing_price} (Closing)" if closing_price
